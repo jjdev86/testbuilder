@@ -13,18 +13,28 @@ var detectNetwork = function(cardNumber) {
   var cardType = "";
   var ccLength = cardNumber.length;
   //grab first two numers from credit card
-  var twoDigits = parseInt((cardNumber.split('').splice(0,2)).join(''));
+  var numbers = cardNumber.split('').map(function(el){
+    return parseInt(el);
+  });
+  //create variable that holds prefix that start with 2 digits
+  var prefix2 = parseInt(numbers.slice(0,2).join(''));
+  //console.log(prefix2)
+  // Visa always has a prefix of 4 and a length of 13, 16, or 19
+  if(numbers[0] === 4 && ccLength === 13 || ccLength === 16 || ccLength === 19){
+    cardType = "Visa";
+  }
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
-  if(twoDigits === 38 || twoDigits === 39 && ccLength === 14){
+  if(prefix2 === 38 || prefix2 === 39 && ccLength === 14){
     cardType = "Diner\'s Club";
   }
   // The American Express network always starts with a 34 or 37 and is 15 digits long
-  if(twoDigits === 34 || twoDigits === 37 && ccLength === 15){
+  if(prefix2 === 34 || prefix2 === 37 && ccLength === 15){
     cardType = 'American Express'
+  }
+  // MasterCard always has a prefix of 51, 52, 53, 54, or 55 and a length of 16
+  if(prefix2 >= 51 || prefix2 <= 55 && ccLength === 16 && numbers[0] !== 4){
+    cardType = "MasterCard"
   }
   // Once you've read this, go ahead and try to implement this function, then return to the console.
   return cardType;
 };
-
-
-console.log(detectNetwork('38345678901234'))
