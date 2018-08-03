@@ -18,6 +18,8 @@ var detectNetwork = function(cardNumber) {
   });
   //create variable that holds prefix that start with 2 digits
   var prefix2 = parseInt(numbers.slice(0,2).join(''));
+  var prefix3 = parseInt(numbers.slice(0,3).join(''));
+  var prefix4 = parseInt(numbers.slice(0,4).join(''));
   //console.log(prefix2)
   // Visa always has a prefix of 4 and a length of 13, 16, or 19
   if(numbers[0] === 4 && ccLength === 13 || ccLength === 16 || ccLength === 19){
@@ -35,6 +37,16 @@ var detectNetwork = function(cardNumber) {
   if(prefix2 >= 51 || prefix2 <= 55 && ccLength === 16 && numbers[0] !== 4){
     cardType = "MasterCard"
   }
+  // Discover network always has a prefix of 6011, 644-649, or 65, and a length of 16 or 19
+  if(prefix4 === 6011 || prefix3 >= 644 && prefix3 <= 649 || prefix2 === 65 && ccLength === 16 || ccLength === 19 && numbers[0] !== 4){
+    cardType = 'Discover';
+  }
+  //Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19
+  if(prefix4 === 5018 || prefix4 === 5020 || prefix4 === 5038 || prefix4 === 6304 && ccLength >= 12 & ccLength <= 19){
+    cardType = 'Maestro';
+  }
   // Once you've read this, go ahead and try to implement this function, then return to the console.
   return cardType;
 };
+
+console.log(detectNetwork('4123456789012345678'))
