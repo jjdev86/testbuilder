@@ -127,14 +127,14 @@ describe('MasterCard', function() {
   // and should, but that's just for learning), so once you've gotten 
   // these tests to pass using should syntax, refactor your tests to 
   // use either expect or should, but not both. 
-  var should = chai.should();
+  var expect = chai.expect;
   
   it('has a prefix of 54 and a length of 16', function() {
-    detectNetwork('5412345678901234').should.equal('MasterCard');
+    expect(detectNetwork('5412345678901234')).to.equal('MasterCard');
   });
  
   it('has a prefix of 55 and a length of 16', function() {
-    detectNetwork('5512345678901234').should.equal('MasterCard');
+    expect(detectNetwork('5512345678901234')).to.equal('MasterCard');
   })
  
 });
@@ -178,28 +178,28 @@ describe('Maestro', function() {
   // Write full test coverage for the Maestro card
   var expect = chai.expect;
 
-  for(var length = 12; length <=19; length++){
-    (function(length){
+  for(var length = 12, num = '1'; length <=19, num.length <= 8; length++, num = num + '1'){
+    (function(length, num){
       it('has a prefix of 5018 and a length of ' + length, function(){
-        expect(detectNetwork('5018123912' + length)).to.equal('Maestro');
+        expect(detectNetwork('50183459391' + num)).to.equal('Maestro');
       })
       it('has a prefix of 5020 and a length of ' + length, function(){
-        expect(detectNetwork('5020123912' + length)).to.equal('Maestro');
+        expect(detectNetwork('50201239121' + num)).to.equal('Maestro');
       })
 
       it('has a prefix of 5038 and a length of ' + length, function(){
-        expect(detectNetwork('5038123912' + length)).to.equal('Maestro');
+        expect(detectNetwork('50381239121' + num)).to.equal('Maestro');
       })
       
       it('has a prefix of 6304 and a length of ' + length, function(){
-        expect(detectNetwork('6304123912' + length)).to.equal('Maestro');
+        expect(detectNetwork('63041256451' + num)).to.equal('Maestro');
       })
 
-    })(length)
+    })(length, num)
   }
 
 
 });
 
-// describe('should support China UnionPay')
-// describe('should support Switch')
+describe('should support China UnionPay')
+describe('should support Switch')
